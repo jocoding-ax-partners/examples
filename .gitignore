@@ -57,3 +57,7 @@ bun.lockb
 
 # TypeScript incremental build cache
 *.tsbuildinfo
+
+# GitNexus knowledge graph output (per-developer auto-generated, never push)
+graphify-out/
+.gitnexus/
