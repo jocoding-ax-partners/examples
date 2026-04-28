@@ -38,6 +38,26 @@ AI 가 코드를 짜는 흐름을 가정해요.
 `/axhub:deploy` 슬래시 명령으로 배포해요. 직접 `axhub deploy create` 호출하지 말고 항상
 플러그인의 안전 가드를 통과해요.
 
+## axhub.ts 신뢰 모델 (6개 템플릿 공통)
+
+이 템플릿의 axhub 헬퍼는 6개 템플릿 모두 **동일한 외부 API** 를 노출해요:
+`axhub.fetch(path)`, `axhub.data(resource)`, `axhub.slug`, `axhub.isConfigured`.
+**다른 템플릿 코드를 복사해도 호환돼요.**
+
+차이는 전송(transport) 한 가지뿐 (구조적 차이, 게으름 아님):
+
+| 템플릿 | 위치 | 인증 방식 |
+|--------|------|-----------|
+| nextjs-axhub | `lib/axhub.ts:24` | `Authorization: Bearer ${process.env.APPHUB_API_KEY}` (Server) |
+| express-axhub | `lib/axhub.js:20` | 동일 (Server) |
+| remix-axhub | `app/lib/axhub.server.ts:21` | 동일 (Server) |
+| astro-axhub | `src/lib/axhub.ts:21` | 동일 (Server) |
+| hono-axhub | `src/lib/axhub.ts:20` | 동일 (Server) |
+| **vite-react-axhub** | `src/lib/axhub.ts:19,28` | `credentials: "include"` (Browser, **시크릿 키 미주입**) |
+
+**규칙:** `APPHUB_API_KEY` 는 5개 서버 템플릿 의 `process.env` 에만 존재. 브라우저(vite-react)에서는 절대 접근 안 됨.
+브라우저 SPA 가 인증된 axhub 호출이 필요하면, 별도 백엔드(`express-axhub` 또는 `hono-axhub`) 를 두고 거기서 처리.
+
 ## 절대 하지 말 것
 
 - `APPHUB_API_KEY` 를 클라이언트로 넘기는 코드 작성 금지.

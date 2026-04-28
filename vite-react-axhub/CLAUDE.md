@@ -34,3 +34,23 @@
 ## 배포
 
 `/axhub:deploy` 또는 `axhub deploy create --app <slug>`. 빌드된 `dist/` 가 nginx 로 정적 서빙돼요.
+
+## axhub.ts 신뢰 모델 (6개 템플릿 공통)
+
+이 템플릿의 axhub 헬퍼는 6개 템플릿 모두 **동일한 외부 API** 를 노출해요:
+`axhub.fetch(path)`, `axhub.data(resource)`, `axhub.slug`, `axhub.isConfigured`.
+**다른 템플릿 코드를 복사해도 호환돼요.**
+
+차이는 전송(transport) 한 가지뿐 (구조적 차이, 게으름 아님):
+
+| 템플릿 | 위치 | 인증 방식 |
+|--------|------|-----------|
+| nextjs-axhub | `lib/axhub.ts:24` | `Authorization: Bearer ${process.env.APPHUB_API_KEY}` (Server) |
+| express-axhub | `lib/axhub.js:20` | 동일 (Server) |
+| remix-axhub | `app/lib/axhub.server.ts:21` | 동일 (Server) |
+| astro-axhub | `src/lib/axhub.ts:21` | 동일 (Server) |
+| hono-axhub | `src/lib/axhub.ts:20` | 동일 (Server) |
+| **vite-react-axhub** | `src/lib/axhub.ts:19,28` | `credentials: "include"` (Browser, **시크릿 키 미주입**) |
+
+**규칙:** 이 템플릿(`vite-react-axhub`)은 브라우저 전용. `APPHUB_API_KEY` 가 빌드 결과물에 박히면 누구나 봄.
+인증된 axhub 호출이 필요하면 별도 백엔드(`express-axhub` 또는 `hono-axhub`)를 두고 거기서 호출 후 같은 도메인 reverse proxy 로 호출.
