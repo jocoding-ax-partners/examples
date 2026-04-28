@@ -1,0 +1,82 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { axhub } from "../lib/axhub";
+
+const status = axhub.isConfigured ? "axhub 연결됨" : "환경변수 미설정";
+const slug = axhub.slug || "(미설정)";
+---
+
+<Layout title="axhub × Astro">
+  <main>
+    <h1>axhub × Astro</h1>
+    <p class="lead">조코딩 AX 파트너스 바이브코딩 템플릿 (Astro 5 SSR)</p>
+
+    <section class="status-card">
+      <div class="row">
+        <span class="label">상태</span>
+        <span class={axhub.isConfigured ? "ok" : "warn"}>{status}</span>
+      </div>
+      <div class="row">
+        <span class="label">앱 슬러그</span>
+        <code>{slug}</code>
+      </div>
+    </section>
+
+    <ol>
+      <li><code>src/pages/index.astro</code> 를 열어서 마음대로 바꿔봐요.</li>
+      <li>저장하면 즉시 반영돼요 (HMR).</li>
+      <li>SSR 데모는 <a href="/ssr">/ssr</a> 에서 확인.</li>
+      <li>다 만들었으면 Claude Code 에서 <code>/axhub:deploy</code>.</li>
+    </ol>
+
+    <footer>Astro 5 · Node 20+ · TypeScript</footer>
+  </main>
+</Layout>
+
+<style>
+  main {
+    max-width: 720px;
+    margin: 4rem auto;
+    padding: 0 1rem;
+  }
+  h1 {
+    font-size: 2rem;
+    margin: 0 0 0.5rem;
+  }
+  .lead {
+    color: var(--color-muted);
+    margin-top: 0;
+  }
+  .status-card {
+    margin: 2rem 0;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem 0;
+  }
+  .label {
+    color: var(--color-muted);
+    font-size: 0.9rem;
+  }
+  .ok {
+    color: var(--color-ok);
+    font-weight: 600;
+  }
+  .warn {
+    color: var(--color-warn);
+    font-weight: 600;
+  }
+  ol {
+    line-height: 1.8;
+  }
+  footer {
+    margin-top: 3rem;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+  }
+</style>

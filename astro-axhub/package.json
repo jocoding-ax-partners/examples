@@ -1,0 +1,20 @@
+{
+  "name": "astro-axhub",
+  "private": true,
+  "version": "0.1.0",
+  "description": "axhub 위에서 바로 굴러가는 Astro 5 SSR (Node 20+) 템플릿",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "start": "HOST=0.0.0.0 PORT=3000 node ./dist/server/entry.mjs",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/node": "^9.0.0",
+    "astro": "^5.1.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

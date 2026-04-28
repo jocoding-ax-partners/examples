@@ -1,0 +1,51 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = "조코딩 AX 파트너스 axhub 바이브코딩 템플릿 (Astro SSR)" } = Astro.props as Props;
+---
+
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --color-text: #111827;
+    --color-bg: #ffffff;
+    --color-muted: #6b7280;
+    --color-border: #e5e7eb;
+    --color-accent: #4f39fa;
+    --color-ok: #059669;
+    --color-warn: #d97706;
+  }
+
+  html {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: #f3f4f6;
+    padding: 0.1rem 0.3rem;
+    border-radius: 0.25rem;
+  }
+</style>
